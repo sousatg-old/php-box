@@ -1,0 +1,7 @@
+- name: apply common configuration to server
+  hosts: php
+  user: vagrant
+  roles:
+    - common
+    - php
+    - nginx

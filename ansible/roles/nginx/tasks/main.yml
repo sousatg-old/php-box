@@ -1,0 +1,11 @@
+- name: Install NGinx
+  apt:
+    name: 
+      - nginx
+    state: present
+    update_cache: yes
+
+- name: Start service nginx, if not started
+  service:
+    name: nginx
+    state: started

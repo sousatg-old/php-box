@@ -1,0 +1,15 @@
+- name: Install PHP Packages
+  apt:
+    name: 
+      - php-cli
+      - php-fpm
+      - php-curl
+      - php-gd
+      - php-mbstring 
+      - php-xml 
+      - php-xmlrpc 
+      - php-soap 
+      - php-intl 
+      - php-zip
+    state: present
+    update_cache: yes

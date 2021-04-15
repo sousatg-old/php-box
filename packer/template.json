@@ -1,0 +1,51 @@
+{
+  "variables": {
+    "digitalocean_api_key": "{{env `DIGITALOCEAN_API_KEY`}}",
+    "aws_access_key": "",
+    "aws_secret_key": "",
+    "aws_regios": "eu-west-2"
+  },
+  "builders": [
+    {
+      "type": "digitalocean",
+      "api_token": "{{user `digitalocean_api_key`}}",
+      "image": "ubuntu-16-04-x64",
+      "region": "nyc3",
+      "size": "512mb",
+      "ssh_username": "root"
+    },
+    {
+      "type": "amazon-ebs",
+      "access_key": "{{user `aws_access_key`}}",
+      "secret_key": "{{user `aws_secret_key`}}",
+      "region": "{{user `aws_regios`}}",
+      "source_ami_filter": {
+        "filters": {
+          "virtualization-type": "hvm",
+          "name": "ubuntu/images/*ubuntu-xenial-16.04-amd64-server-*",
+          "root-device-type": "ebs"
+        },
+        "owners": ["099720109477"],
+        "most_recent": true
+      },
+      "instance_type": "t2.micro",
+      "ssh_username": "ubuntu",
+      "ami_name": "php-dfd {{timestamp}}"
+    }
+  ],
+  "provisioners": [
+    {
+      "type": "shell",
+      "script": "scripts/ansible.sh"
+    },
+    {
+      "type": "ansible-local",
+      "playbook_file": "../ansible/deploy.yml",
+      "role_paths": ["../ansible/roles/common"]
+    },
+    {
+      "type": "shell",
+      "script": "scripts/cleanup.sh"
+    }
+  ]
+}

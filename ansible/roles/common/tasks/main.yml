@@ -1,0 +1,11 @@
+- name: Install required packages
+  apt:
+    name:
+      - make
+      - vim
+      - apt-transport-https
+      - ca-certificates
+      - curl
+      - software-properties-common
+    state: present
+    update_cache: yes
