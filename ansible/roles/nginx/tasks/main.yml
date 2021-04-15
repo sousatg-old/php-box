@@ -9,3 +9,26 @@
   service:
     name: nginx
     state: started
+
+- name: Create server block
+  file: 
+    path: /var/www/example.com/html
+    state: directory
+    mode: '0755'
+
+- name: Template index file
+  template:
+    src: index.html.j2
+    dest: /var/www/example.com/html/index.html
+    mode: '0644'
+
+- name: Template nginx Server Block
+  template:
+    src: example.com
+    dest: /etc/nginx/sites-available/example.com
+
+- name: Create a symbolic link
+  file:
+    src: /etc/nginx/sites-available/example.com
+    dest: /etc/nginx/sites-enabled/example.com
+    state: link
